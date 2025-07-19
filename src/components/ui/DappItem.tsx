@@ -30,7 +30,7 @@ const DappItem = ({
       </div>
 
       <div className="flex-grow min-w-0">
-        <div className="mb-1 text-3xl font-normal text-gray-800 truncate">
+        <div className="mb-1 text-2xl font-normal text-gray-800 truncate">
           {name}
         </div>
         <span className="text-lg font-normal text-gray-700 line-clamp-1">

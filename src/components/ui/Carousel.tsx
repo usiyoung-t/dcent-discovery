@@ -10,24 +10,28 @@ const Carousel = ({ children }: { children: ReactNode }) => {
     return null;
   }
 
+  const isLoopEnabled = totalSlides > 1;
+
   return (
     <div className="overflow-hidden relative w-full">
       <Swiper
         modules={[Pagination, Autoplay]}
         spaceBetween={10}
         slidesPerView={1}
-        loop={true}
+        loop={isLoopEnabled}
         autoplay={{
           delay: 1000,
           disableOnInteraction: false,
         }}
-        onSlideChange={(swiper) => setCurrentIndex(swiper.realIndex + 1)}
+        onSlideChange={(swiper) => {
+          setCurrentIndex(swiper.realIndex + 1);
+        }}
       >
         {children}
       </Swiper>
 
       <div className="absolute right-3 bottom-3 z-10 px-2 py-1 text-xs text-white bg-black bg-opacity-50 rounded-full">
-        {isNaN(currentIndex) ? 0 : currentIndex} / {totalSlides}
+        {currentIndex} / {totalSlides}
       </div>
     </div>
   );
