@@ -6,15 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
   </head>
-  <body class="flex justify-center bg-white">
+  <body class="flex overflow-hidden justify-center h-screen">
     <div
       id="mobile-layout"
-      class="overflow-hidden w-full max-w-lg min-h-screen shadow-2xl"
+      class="overflow-y-auto w-full max-w-lg h-full bg-white shadow-2xl"
     >
       <div id="root"></div>
-
-      <div id="modal-root"></div>
     </div>
+
+    <div id="modal-root"></div>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
