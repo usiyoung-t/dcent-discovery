@@ -20,11 +20,14 @@ export const handlers = [
       buttonText: lang === "ko" ? banner.buttonTextKo : banner.buttonTextEn,
     }));
 
-    // return HttpResponse.json({
-    //   success: false,
-    //   data: [],
-    //   message: "Failed to fetch banners",
-    // });
+    // return HttpResponse.json(
+    //   {
+    //     success: false,
+    //     data: [],
+    //     message: "Failed to fetch dapps",
+    //   },
+    //   { status: 500 }
+    // );
 
     return HttpResponse.json({
       success: true,
@@ -60,11 +63,14 @@ export const handlers = [
         linkUrl: dapp.linkUrl,
       }));
 
-    // return HttpResponse.json({
-    //   success: false,
-    //   data: [],
-    //   message: "Failed to fetch banners",
-    // });
+    // return HttpResponse.json(
+    //   {
+    //     success: false,
+    //     data: [],
+    //     message: "Failed to fetch dapps",
+    //   },
+    //   { status: 500 }
+    // );
 
     return HttpResponse.json({
       success: true,

@@ -27,7 +27,7 @@ const Carousel = ({ children }: { children: ReactNode }) => {
       </Swiper>
 
       <div className="absolute right-3 bottom-3 z-10 px-2 py-1 text-xs text-white bg-black bg-opacity-50 rounded-full">
-        {currentIndex} / {totalSlides}
+        {isNaN(currentIndex) ? 0 : currentIndex} / {totalSlides}
       </div>
     </div>
   );
