@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
 import "./App.css";
-import type { Banner } from "./api/banner";
+import { getBanners, type Banner } from "./api/banner";
+import { getDapps } from "./api/dapps";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -13,21 +13,18 @@ function App() {
   const fetchBanners = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("/api/banners");
-      console.log(response.data);
-      setBanners(response.data.data);
+      const banners = await getBanners({ lang: i18n.language });
+      setBanners(banners);
 
-      const dapps = await axios.get("/api/dapps", {
-        params: {
-          platform: "android",
-        },
-        headers: {
-          "Accept-Language": i18n.language,
-        },
+      const dapps = await getDapps({
+        lang: i18n.language,
+        platform: "android",
+        env: import.meta.env.VITE_APP_ENV || "development",
       });
-      console.log(dapps.data);
+
+      console.log(dapps);
     } catch (error) {
-      console.error("사용자 조회 실패:", error);
+      console.error("Error:", error);
     } finally {
       setLoading(false);
     }

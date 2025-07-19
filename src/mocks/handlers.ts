@@ -17,6 +17,12 @@ export const handlers = [
       buttonText: lang === "ko" ? banner.buttonTextKo : banner.buttonTextEn,
     }));
 
+    // return HttpResponse.json({
+    //   success: false,
+    //   data: [],
+    //   message: "Failed to fetch banners",
+    // });
+
     return HttpResponse.json({
       success: true,
       data: banners,
@@ -47,6 +53,12 @@ export const handlers = [
         iconUrl: dapp.iconUrl,
         linkUrl: dapp.linkUrl,
       }));
+
+    // return HttpResponse.json({
+    //   success: false,
+    //   data: [],
+    //   message: "Failed to fetch banners",
+    // });
 
     return HttpResponse.json({
       success: true,
