@@ -11,11 +11,11 @@ interface DappDetailSheetProps {
 
 const DappDetailSheet = ({ isOpen, dapp, onClose }: DappDetailSheetProps) => {
   const { t } = useTranslation();
-
   if (!isOpen || !dapp) {
     return null;
   }
 
+  console.log(dapp);
   return (
     <div className="flex absolute inset-0 z-20 flex-col justify-end h-[140vh] bg-black/30">
       <div className="flex fixed bottom-0 flex-col p-8 w-[495px] h-[44vh] bg-white rounded-t-2xl shadow-xl">
@@ -48,16 +48,18 @@ const DappDetailSheet = ({ isOpen, dapp, onClose }: DappDetailSheetProps) => {
           </p>
         </div>
 
-        <div className="flex-shrink-0 pt-4">
-          <a
-            href={dapp.linkUrl || "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block py-3 w-full font-bold text-center text-white bg-green-500 rounded-full transition hover:bg-green-600"
-          >
-            {t("go_to_dapp")}
-          </a>
-        </div>
+        {dapp?.linkUrl && (
+          <div className="flex-shrink-0 pt-4">
+            <a
+              href={dapp.linkUrl || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block py-3 w-full font-bold text-center text-white bg-green-500 rounded-full transition hover:bg-green-600"
+            >
+              {t("go_to_dapp")}
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

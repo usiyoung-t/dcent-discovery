@@ -5,6 +5,7 @@ interface AppContextType {
   env: string;
   lang: string;
   changeLanguage: (lang: string) => void;
+  changePlatform: (platform: string) => void;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);

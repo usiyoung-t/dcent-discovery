@@ -2,23 +2,23 @@ export interface BannerMockData {
   id: string;
   imageKo: string;
   imageEn: string;
-  descriptionKo: string | null;
-  descriptionEn: string | null;
+  descriptionKo?: string;
+  descriptionEn?: string;
   linkKo: string;
   linkEn: string;
-  buttonTextKo: string;
-  buttonTextEn: string;
+  buttonTextKo?: string;
+  buttonTextEn?: string;
 }
 
 export interface DappMockData {
   id: string;
-  network?: string[] | null;
-  nameKo: string;
+  network?: string[];
+  nameKo?: string;
   nameEn?: string;
-  descriptionKo: string;
+  descriptionKo?: string;
   descriptionEn?: string;
   iconUrl: string;
-  linkUrl?: string | null;
+  linkUrl?: string;
   displayConditions: DisplayConditionsMockData;
 }
 
@@ -39,11 +39,7 @@ export const favoriteIdsMockData: FavoriteIdsMockData = {
 export const dappsMockData: DappMockData[] = [
   {
     id: "moonpay",
-    network: null,
-    nameKo: "MoonPay",
     nameEn: "MoonPay",
-    descriptionKo:
-      "VISA/Mastercard 결제를 통해 즉시 암호화폐를 구매하는 간단하고 안전한 방법을 제공합니다.",
     descriptionEn:
       "MoonPay offers simple and safer way to buy crypto instantly using VISA/Mastercard payment",
     iconUrl: "/icon_moonpay.png",
@@ -115,7 +111,6 @@ export const dappsMockData: DappMockData[] = [
     descriptionEn:
       "XDSea is the world's first and largest peer-to-peer decentralized marketplace for buying and selling NFTs built on the XDC Network.",
     iconUrl: "/icon_xdsea.png",
-    linkUrl: null,
     displayConditions: {
       platforms: ["android", "ios"],
       envs: ["development", "staging", "production"],
@@ -209,14 +204,10 @@ export const bannersMockData: BannerMockData[] = [
     id: "mapo-airdrop",
     imageKo: "/banner_mapo_kr.png",
     imageEn: "/banner_mapo_en.png",
-    descriptionKo: null,
-    descriptionEn: null,
     linkKo:
       "https://store-kr.dcentwallet.com/blogs/post/tap-that-drop-with-map-protocol",
     linkEn:
       "https://store.dcentwallet.com/blogs/post/tap-that-drop-with-map-protocol",
-    buttonTextKo: "확인하기",
-    buttonTextEn: "Explore",
   },
   {
     id: "dcent-wallet",

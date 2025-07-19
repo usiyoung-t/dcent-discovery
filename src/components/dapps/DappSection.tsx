@@ -3,14 +3,15 @@ import Divider from "../ui/Divider";
 import DappItem from "../ui/DappItem";
 import { BookMarkButton } from "../ui/BookMark";
 import type { Dapp } from "../../api/dapps";
-import { type MouseEvent, useMemo, useState } from "react";
+import { type MouseEvent, useEffect, useMemo, useState } from "react";
 import useDapps from "../../hooks/useDapps";
 import ConfirmModal from "../ui/ConfirmModal";
 import DappDetailSheet from "./DappDetailSheet";
+import { useAppContext } from "../../context/useAppContext";
 
 const DappSection = () => {
   const { t } = useTranslation();
-
+  const { lang } = useAppContext();
   const [selectedDapp, setSelectedDapp] = useState<Dapp | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,6 +43,12 @@ const DappSection = () => {
 
     return { favorites: favoritesList, dapps: dappsList };
   }, [dappInfo]);
+
+  useEffect(() => {
+    if (selectedDapp) {
+      setIsDetailOpen(false);
+    }
+  }, [lang]);
 
   if (isLoadingDapps) {
     return <div>Loading...</div>;
