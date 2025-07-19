@@ -7,6 +7,7 @@ import DappItem from "./components/DappItem";
 import type { Dapp } from "./api/dapps";
 import { useMemo } from "react";
 import Divider from "./components/Divider";
+import { BookMarkButton } from "./components/BookMark";
 
 function App() {
   const { t } = useTranslation();
@@ -61,7 +62,7 @@ function App() {
               iconUrl={dapp.iconUrl}
               description={dapp.linkUrl}
             >
-              <button onClick={() => deleteFavorite(dapp.id)}></button>
+              <BookMarkButton onClick={() => deleteFavorite(dapp.id)} />
             </DappItem>
             <Divider />
           </>
