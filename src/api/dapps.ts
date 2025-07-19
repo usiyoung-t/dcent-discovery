@@ -1,4 +1,4 @@
-import axios from "axios";
+import client from "./client";
 
 export interface Dapp {
   id: string;
@@ -21,7 +21,7 @@ interface GetDappsParams {
 }
 
 export const getDapps = async ({ lang, platform, env }: GetDappsParams) => {
-  const response = await axios.get("/api/dapps", {
+  const response = await client.get("/api/dapps", {
     params: {
       platform,
       env,
@@ -39,7 +39,7 @@ export const getDapps = async ({ lang, platform, env }: GetDappsParams) => {
 };
 
 export const addFavorite = async (dappId: string) => {
-  const response = await axios.post("/api/favorites", { dappId });
+  const response = await client.post("/api/favorites", { dappId });
 
   if (!response.data.success) {
     throw new Error(response.data.message || "Failed to add favorite");
@@ -47,7 +47,7 @@ export const addFavorite = async (dappId: string) => {
 };
 
 export const deleteFavorite = async (dappId: string) => {
-  const response = await axios.delete(`/api/favorites/${dappId}`);
+  const response = await client.delete(`/api/favorites/${dappId}`);
 
   if (!response.data.success) {
     throw new Error(response.data.message || "Failed to delete favorite");

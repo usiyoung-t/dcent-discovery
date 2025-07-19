@@ -14,7 +14,7 @@ const useDapps = () => {
   const queryKey = ["dapps", lang, platform, env];
 
   const { data, isLoading, error } = useQuery<DappsData>({
-    queryKey: queryKey,
+    queryKey: ["dapps", lang, platform, env],
     enabled: !!lang && !!platform && !!env,
     queryFn: () => getDapps({ lang, platform, env }),
   });
@@ -42,7 +42,7 @@ const useDapps = () => {
 
       return { previousData };
     },
-    onError: (context) => {
+    onError: (_err, _dappId, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(queryKey, context.previousData);
       }

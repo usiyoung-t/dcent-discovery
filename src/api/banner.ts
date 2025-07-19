@@ -1,4 +1,4 @@
-import axios from "axios";
+import client from "./client";
 
 export interface Banner {
   id: string;
@@ -13,7 +13,7 @@ interface GetBannersParams {
 }
 
 export const getBanners = async ({ lang }: GetBannersParams) => {
-  const response = await axios.get("/api/banners", {
+  const response = await client.get("/api/banners", {
     headers: {
       "Accept-Language": lang,
     },
