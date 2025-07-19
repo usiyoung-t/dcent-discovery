@@ -3,21 +3,23 @@ import Divider from "../ui/Divider";
 import DappItem from "../ui/DappItem";
 import { BookMarkButton } from "../ui/BookMark";
 import type { Dapp } from "../../api/dapps";
-import { useMemo, useState } from "react";
+import { type MouseEvent, useMemo, useState } from "react";
 import useDapps from "../../hooks/useDapps";
 import ConfirmModal from "../ui/ConfirmModal";
+import DappDetailSheet from "./DappDetailSheet";
 
 const DappSection = () => {
   const { t } = useTranslation();
 
-  const [selectedDappId, setSelectedDappId] = useState<string | null>(null);
+  const [selectedDapp, setSelectedDapp] = useState<Dapp | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   const {
     data: dappInfo,
     isLoading: isLoadingDapps,
     error: errorDapps,
-    addFavorite,
     deleteFavorite,
   } = useDapps();
 
@@ -49,9 +51,14 @@ const DappSection = () => {
     return <div>Error: {errorDapps.message}</div>;
   }
 
+  const handleDappClick = (dapp: Dapp) => {
+    setSelectedDapp(dapp);
+    setIsDetailOpen(true);
+  };
+
   return (
     <>
-      <div className="p-5 px-6 mt-4">
+      <div className="relative p-5 px-6 mt-4">
         {favorites.length > 0 && (
           <section className="mb-8">
             <span className="text-lg font-normal text-gray-600">
@@ -65,10 +72,12 @@ const DappSection = () => {
                   name={dapp.name}
                   iconUrl={dapp.iconUrl}
                   description={dapp.linkUrl}
+                  onClick={() => handleDappClick(dapp)}
                 >
                   <BookMarkButton
-                    onClick={() => {
-                      setSelectedDappId(dapp.id);
+                    onClick={(e: MouseEvent) => {
+                      e.stopPropagation();
+                      setSelectedDapp(dapp);
                       setIsOpen(true);
                     }}
                   />
@@ -91,6 +100,7 @@ const DappSection = () => {
                 name={dapp.name}
                 iconUrl={dapp.iconUrl}
                 description={dapp.description}
+                onClick={() => handleDappClick(dapp)}
               />
               <Divider />
             </div>
@@ -104,11 +114,17 @@ const DappSection = () => {
         children={<p>{t("dapp_favorite_delete_confirm")}</p>}
         onClose={() => setIsOpen(false)}
         onConfirm={() => {
-          if (selectedDappId) {
-            deleteFavorite(selectedDappId);
+          if (selectedDapp) {
+            deleteFavorite(selectedDapp.id);
           }
           setIsOpen(false);
         }}
+      />
+
+      <DappDetailSheet
+        isOpen={isDetailOpen}
+        dapp={selectedDapp}
+        onClose={() => setIsDetailOpen(false)}
       />
     </>
   );

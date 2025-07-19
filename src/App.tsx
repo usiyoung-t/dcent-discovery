@@ -7,6 +7,7 @@ function App() {
   return (
     <>
       <Discovery />
+
       <button
         className="fixed top-10 left-10 z-50 px-4 py-2 text-white bg-blue-500 rounded-md"
         onClick={() => {

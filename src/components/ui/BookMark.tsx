@@ -1,7 +1,12 @@
 import { useTranslation } from "react-i18next";
 import BookmarkIcon from "./icons/BookmarkIcon";
+import type { MouseEvent } from "react";
 
-export const BookMarkButton = ({ onClick }: { onClick: () => void }) => {
+export const BookMarkButton = ({
+  onClick,
+}: {
+  onClick: (e: MouseEvent) => void;
+}) => {
   const { t } = useTranslation();
 
   return (
