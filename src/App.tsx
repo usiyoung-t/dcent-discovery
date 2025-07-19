@@ -2,24 +2,30 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import "./App.css";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+import type { Banner } from "./api/banner";
 
 function App() {
   const { t, i18n } = useTranslation();
-  const [users, setUsers] = useState<User[]>([]);
+  const [banners, setBanners] = useState<Banner[]>([]);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
 
-  const fetchUsers = async () => {
+  const fetchBanners = async () => {
     setLoading(true);
     try {
-      const response = await axios.get<User[]>("/api/users");
-      setUsers(response.data);
+      const response = await axios.get("/api/banners");
+      console.log(response.data);
+      setBanners(response.data.data);
+
+      const dapps = await axios.get("/api/dapps", {
+        params: {
+          platform: "android",
+        },
+        headers: {
+          "Accept-Language": i18n.language,
+        },
+      });
+      console.log(dapps.data);
     } catch (error) {
       console.error("사용자 조회 실패:", error);
     } finally {
@@ -32,41 +38,41 @@ function App() {
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchBanners();
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <div className="max-w-4xl mx-auto">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-600 mb-4">
+    <div className="p-8 min-h-screen bg-gray-100">
+      <div className="mx-auto max-w-4xl">
+        <header className="mb-8 text-center">
+          <h1 className="mb-4 text-4xl font-bold text-blue-600">
             {t("app_title")}
           </h1>
-          <div className="flex justify-center gap-4 mb-4">
+          <div className="flex gap-4 justify-center mb-4">
             <button
               onClick={() => changeLanguage("ko")}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+              className="px-4 py-2 text-white bg-blue-500 rounded transition hover:bg-blue-600"
             >
               한국어
             </button>
             <button
               onClick={() => changeLanguage("en")}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+              className="px-4 py-2 text-white bg-green-500 rounded transition hover:bg-green-600"
             >
               English
             </button>
           </div>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {/* Counter 섹션 */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4">Counter 예제</h2>
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h2 className="mb-4 text-2xl font-semibold">Counter 예제</h2>
             <div className="text-center">
-              <p className="text-6xl font-bold text-purple-600 mb-4">{count}</p>
+              <p className="mb-4 text-6xl font-bold text-purple-600">{count}</p>
               <button
                 onClick={() => setCount(count + 1)}
-                className="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition text-lg"
+                className="px-6 py-3 text-lg text-white bg-purple-500 rounded-lg transition hover:bg-purple-600"
               >
                 증가
               </button>
@@ -74,28 +80,37 @@ function App() {
           </div>
 
           {/* API 호출 섹션 */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4">MSW API 예제</h2>
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h2 className="mb-4 text-2xl font-semibold">MSW API 예제</h2>
             <button
-              onClick={fetchUsers}
+              onClick={fetchBanners}
               disabled={loading}
-              className="w-full mb-4 px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 disabled:opacity-50 transition"
+              className="px-4 py-2 mb-4 w-full text-white bg-indigo-500 rounded transition hover:bg-indigo-600 disabled:opacity-50"
             >
               {loading ? t("loading") : "사용자 목록 새로고침"}
             </button>
 
             <div className="space-y-2">
-              {users.map((user) => (
-                <div key={user.id} className="p-3 bg-gray-50 rounded border">
-                  <p className="font-medium">{user.name}</p>
-                  <p className="text-sm text-gray-600">{user.email}</p>
-                </div>
-              ))}
+              {banners &&
+                banners.map((banner) => (
+                  <div
+                    key={banner.id}
+                    className="p-3 bg-gray-50 rounded border"
+                  >
+                    <p className="font-medium">{banner.id}</p>
+                    <p className="font-medium">{banner.image}</p>
+                    <p className="font-medium">{banner.link}</p>
+                    <p className="font-medium">{banner.buttonText}</p>
+                    <p className="text-sm text-gray-600">
+                      {banner.description}
+                    </p>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
 
-        <footer className="text-center mt-8 text-gray-600">
+        <footer className="mt-8 text-center text-gray-600">
           <p>
             {t("welcome")} - Vite + React + TypeScript + Tailwind + MSW +
             i18next

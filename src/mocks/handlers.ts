@@ -1,17 +1,59 @@
 import { http, HttpResponse } from "msw";
+import {
+  bannersMockData,
+  dappsMockData,
+  favoriteIdsMockData,
+} from "./mockData";
 
 export const handlers = [
-  // GET 요청 예시
-  http.get("/api/users", () => {
-    return HttpResponse.json([
-      { id: 1, name: "홍길동", email: "hong@example.com" },
-      { id: 2, name: "김철수", email: "kim@example.com" },
-    ]);
+  http.get("/api/banners", ({ request }) => {
+    const lang = request.headers.get("Accept-Language") || "ko";
+
+    const banners = bannersMockData.map((banner) => ({
+      id: banner.id,
+      image: lang === "ko" ? banner.imageKo : banner.imageEn,
+      description: lang === "ko" ? banner.descriptionKo : banner.descriptionEn,
+      link: lang === "ko" ? banner.linkKo : banner.linkEn,
+      buttonText: lang === "ko" ? banner.buttonTextKo : banner.buttonTextEn,
+    }));
+
+    return HttpResponse.json({
+      success: true,
+      data: banners,
+    });
   }),
 
-  // POST 요청 예시
-  http.post("/api/users", async ({ request }) => {
-    const newUser = (await request.json()) as { name: string; email: string };
-    return HttpResponse.json({ id: 3, ...newUser }, { status: 201 });
+  http.get("/api/dapps", ({ request }) => {
+    const url = new URL(request.url);
+    const lang = request.headers.get("Accept-Language") || "ko";
+    const platform = url.searchParams.get("platform") || "ios";
+    const env = import.meta.env.VITE_APP_ENV || "development";
+
+    const filteredDapps = dappsMockData
+      .filter((dapp) => {
+        const { platforms, envs, langs } = dapp.displayConditions || {};
+
+        if (platforms && !platforms.includes(platform)) return false;
+        if (envs && !envs.includes(env)) return false;
+        if (langs && !langs.includes(lang)) return false;
+
+        return true;
+      })
+      .map((dapp) => ({
+        id: dapp.id,
+        network: dapp.network,
+        name: lang === "ko" ? dapp.nameKo : dapp.nameEn,
+        description: lang === "ko" ? dapp.descriptionKo : dapp.descriptionEn,
+        iconUrl: dapp.iconUrl,
+        linkUrl: dapp.linkUrl,
+      }));
+
+    return HttpResponse.json({
+      success: true,
+      data: {
+        dapps: filteredDapps,
+        favoriteIds: favoriteIdsMockData.favoriteIds,
+      },
+    });
   }),
 ];
