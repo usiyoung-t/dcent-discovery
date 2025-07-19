@@ -18,7 +18,7 @@ const DappDetailSheet = ({ isOpen, dapp, onClose }: DappDetailSheetProps) => {
   console.log(dapp);
   return (
     <div className="flex absolute inset-0 z-20 flex-col justify-end h-[140vh] bg-black/30">
-      <div className="flex fixed bottom-0 flex-col p-8 w-[495px] h-[44vh] bg-white rounded-t-2xl shadow-xl">
+      <div className="flex fixed bottom-0 flex-col p-8 w-[512px] h-[44vh] bg-white rounded-t-2xl shadow-xl">
         <div className="flex-shrink-0">
           <CloseButton onClick={onClose} />
 

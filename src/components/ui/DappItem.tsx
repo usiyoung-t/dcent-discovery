@@ -16,15 +16,15 @@ const DappItem = ({
 }) => {
   return (
     <div
-      className="flex items-center py-4 rounded-lg cursor-pointer"
+      className="flex items-center py-3.5 rounded-lg cursor-pointer"
       onClick={onClick}
     >
       <div className="flex-shrink-0 mr-4 rounded-lg shadow-md">
         <img
           className="rounded-md"
           src={DAPP_ICON_URL + iconUrl}
-          width={90}
-          height={90}
+          width={80}
+          height={80}
           alt={name}
         />
       </div>
