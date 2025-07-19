@@ -11,11 +11,11 @@ interface DappDetailSheetProps {
 
 const DappDetailSheet = ({ isOpen, dapp, onClose }: DappDetailSheetProps) => {
   const { t } = useTranslation();
+
   if (!isOpen || !dapp) {
     return null;
   }
 
-  console.log(dapp);
   return (
     <div className="flex absolute inset-0 z-20 flex-col justify-end h-[140vh] bg-black/30">
       <div className="flex fixed bottom-0 flex-col p-8 w-[512px] h-[44vh] bg-white rounded-t-2xl shadow-xl">

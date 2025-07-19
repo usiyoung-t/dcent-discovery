@@ -42,7 +42,7 @@ const useDapps = () => {
 
       return { previousData };
     },
-    onError: (err, dappId, context) => {
+    onError: (context) => {
       if (context?.previousData) {
         queryClient.setQueryData(queryKey, context.previousData);
       }

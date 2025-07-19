@@ -20,7 +20,7 @@ const Carousel = ({ children }: { children: ReactNode }) => {
         slidesPerView={1}
         loop={isLoopEnabled}
         autoplay={{
-          delay: 1000,
+          delay: 2000,
           disableOnInteraction: false,
         }}
         onSlideChange={(swiper) => {
