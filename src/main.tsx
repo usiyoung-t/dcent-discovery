@@ -1,8 +1,8 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import "./i18n";
 import App from "./App.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // MSW 설정 (개발 환경에서만)
 async function enableMocking() {
@@ -14,10 +14,12 @@ async function enableMocking() {
   return worker.start();
 }
 
+const queryClient = new QueryClient();
+
 enableMocking().then(() => {
   createRoot(document.getElementById("root")!).render(
-    <StrictMode>
+    <QueryClientProvider client={queryClient}>
       <App />
-    </StrictMode>
+    </QueryClientProvider>
   );
 });

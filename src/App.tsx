@@ -1,42 +1,33 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./App.css";
-import { getBanners, type Banner } from "./api/banner";
-import { getDapps } from "./api/dapps";
+import useBanners from "./hooks/useBanners";
+import useDapps from "./hooks/useDapps";
 
 function App() {
   const { t, i18n } = useTranslation();
-  const [banners, setBanners] = useState<Banner[]>([]);
-  const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
 
-  const fetchBanners = async () => {
-    setLoading(true);
-    try {
-      const banners = await getBanners({ lang: i18n.language });
-      setBanners(banners);
-
-      const dapps = await getDapps({
-        lang: i18n.language,
-        platform: "android",
-        env: import.meta.env.VITE_APP_ENV || "development",
-      });
-
-      console.log(dapps);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    data: banners,
+    isLoading: isLoadingBanners,
+    error: errorBanners,
+  } = useBanners(i18n.language);
+  const {
+    data: dappInfo,
+    isLoading: isLoadingDapps,
+    error: errorDapps,
+  } = useDapps(
+    i18n.language,
+    "android",
+    import.meta.env.VITE_APP_ENV || "development"
+  );
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
 
-  useEffect(() => {
-    fetchBanners();
-  }, []);
+  console.log(banners, dappInfo);
 
   return (
     <div className="p-8 min-h-screen bg-gray-100">
@@ -79,30 +70,25 @@ function App() {
           {/* API 호출 섹션 */}
           <div className="p-6 bg-white rounded-lg shadow-md">
             <h2 className="mb-4 text-2xl font-semibold">MSW API 예제</h2>
-            <button
-              onClick={fetchBanners}
-              disabled={loading}
-              className="px-4 py-2 mb-4 w-full text-white bg-indigo-500 rounded transition hover:bg-indigo-600 disabled:opacity-50"
-            >
-              {loading ? t("loading") : "사용자 목록 새로고침"}
-            </button>
 
             <div className="space-y-2">
-              {banners &&
-                banners.map((banner) => (
-                  <div
-                    key={banner.id}
-                    className="p-3 bg-gray-50 rounded border"
-                  >
-                    <p className="font-medium">{banner.id}</p>
-                    <p className="font-medium">{banner.image}</p>
-                    <p className="font-medium">{banner.link}</p>
-                    <p className="font-medium">{banner.buttonText}</p>
-                    <p className="text-sm text-gray-600">
-                      {banner.description}
-                    </p>
-                  </div>
+              {isLoadingBanners && <p>Loading...</p>}
+              {errorBanners && <p>Error: {errorBanners.message}</p>}
+
+              <div>
+                {banners?.map((banner) => (
+                  <div key={banner.id}>{banner.id}</div>
                 ))}
+              </div>
+
+              {isLoadingDapps && <p>Loading...</p>}
+              {errorDapps && <p>Error: {errorDapps.message}</p>}
+
+              <div>
+                {dappInfo?.dapps.map((dapp) => (
+                  <div key={dapp.id}>{dapp.id}</div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
