@@ -17,6 +17,7 @@ const useDapps = () => {
     queryKey: ["dapps", lang, platform, env],
     enabled: !!lang && !!platform && !!env,
     queryFn: () => getDapps({ lang, platform, env }),
+    staleTime: 3000,
   });
 
   const addFavoriteMutation = useMutation({

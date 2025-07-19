@@ -8,6 +8,7 @@ const useBanners = () => {
   const { data, isLoading, error } = useQuery<Banner[]>({
     queryKey: ["banners", lang],
     queryFn: () => getBanners({ lang }),
+    staleTime: 5000,
   });
 
   return { data, isLoading, error };
