@@ -207,8 +207,8 @@ export const dappsMockData: DappMockData[] = [
 export const bannersMockData: BannerMockData[] = [
   {
     id: "mapo-airdrop",
-    imageKo: "/banners/banner_mapo_kr.png",
-    imageEn: "/banners/banner_mapo_en.png",
+    imageKo: "/banner_mapo_kr.png",
+    imageEn: "/banner_mapo_en.png",
     descriptionKo: null,
     descriptionEn: null,
     linkKo:
@@ -220,8 +220,8 @@ export const bannersMockData: BannerMockData[] = [
   },
   {
     id: "dcent-wallet",
-    imageKo: "/banners/banner_dcent.png",
-    imageEn: "/banners/banner_dcent.png",
+    imageKo: "/banner_dcent.png",
+    imageEn: "/banner_dcent.png",
     descriptionKo:
       "디센트 지문인증형 지갑으로 한층 더 강화된 보안을 경험하세요!",
     descriptionEn: "Enhance your security with D'CENT biometric wallet",
@@ -232,8 +232,8 @@ export const bannersMockData: BannerMockData[] = [
   },
   {
     id: "dcent-blog",
-    imageKo: "/banners/banner_blog.png",
-    imageEn: "/banners/banner_blog.png",
+    imageKo: "/banner_blog.png",
+    imageEn: "/banner_blog.png",
     descriptionKo:
       "새로운 디센트 블로그를 방문하여 최신 업데이트를 먼저 확인해보세요!",
     descriptionEn:

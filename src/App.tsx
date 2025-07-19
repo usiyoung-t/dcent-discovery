@@ -8,6 +8,9 @@ import type { Dapp } from "./api/dapps";
 import { useMemo } from "react";
 import Divider from "./components/Divider";
 import { BookMarkButton } from "./components/BookMark";
+import Carousel from "./components/Carousel";
+import { SwiperSlide } from "swiper/react";
+import { DAPP_ICON_URL } from "./constants";
 
 function App() {
   const { t } = useTranslation();
@@ -47,46 +50,76 @@ function App() {
   }, [dappInfo]);
 
   return (
-    <div className="p-5">
-      <section className="mb-8">
-        <span className="text-lg font-normal text-gray-600">
-          {t("dapp_favorite_title")}
-        </span>
-        <Divider />
-
-        {favorites.map((dapp) => (
-          <>
-            <DappItem
-              key={dapp.id}
-              name={dapp.name}
-              iconUrl={dapp.iconUrl}
-              description={dapp.linkUrl}
-            >
-              <BookMarkButton onClick={() => deleteFavorite(dapp.id)} />
-            </DappItem>
-            <Divider />
-          </>
+    <>
+      <Carousel>
+        {banners?.map((banner) => (
+          <SwiperSlide key={banner.id}>
+            <a href={banner.link} target="_blank" rel="noopener noreferrer">
+              <div className="relative h-48 text-white bg-gray-800">
+                <img
+                  src={DAPP_ICON_URL + banner.image}
+                  alt={banner.description || ""}
+                  className="object-cover w-full h-full opacity-80"
+                />
+                <div className="flex absolute inset-0 flex-col justify-center items-start p-5 w-90">
+                  {banner.description && (
+                    <p className="mb-4 text-xl font-normal">
+                      {banner?.description}
+                    </p>
+                  )}
+                  {banner.buttonText && (
+                    <button className="px-6 py-2 font-bold text-black bg-white rounded-full">
+                      {banner.buttonText}
+                    </button>
+                  )}
+                </div>
+              </div>
+            </a>
+          </SwiperSlide>
         ))}
-      </section>
+      </Carousel>
 
-      <section>
-        <span className="text-lg font-normal text-gray-600">
-          {t("dapp_list_title")}
-        </span>
-        <Divider />
-        {dapps.map((dapp) => (
-          <>
-            <DappItem
-              key={dapp.id}
-              name={dapp.name}
-              iconUrl={dapp.iconUrl}
-              description={dapp.description}
-            />
+      <div className="p-5 px-6 mt-4">
+        {favorites.length > 0 && (
+          <section className="mb-8">
+            <span className="text-lg font-normal text-gray-600">
+              {t("dapp_favorite_title")}
+            </span>
             <Divider />
-          </>
-        ))}
-      </section>
-    </div>
+
+            {favorites.map((dapp) => (
+              <div key={dapp.id}>
+                <DappItem
+                  name={dapp.name}
+                  iconUrl={dapp.iconUrl}
+                  description={dapp.linkUrl}
+                >
+                  <BookMarkButton onClick={() => deleteFavorite(dapp.id)} />
+                </DappItem>
+                <Divider />
+              </div>
+            ))}
+          </section>
+        )}
+
+        <section>
+          <span className="text-lg font-normal text-gray-600">
+            {t("dapp_list_title")}
+          </span>
+          <Divider />
+          {dapps.map((dapp) => (
+            <div key={dapp.id}>
+              <DappItem
+                name={dapp.name}
+                iconUrl={dapp.iconUrl}
+                description={dapp.description}
+              />
+              <Divider />
+            </div>
+          ))}
+        </section>
+      </div>
+    </>
   );
 }
 
