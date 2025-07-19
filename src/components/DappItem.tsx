@@ -13,7 +13,7 @@ const DappItem = ({
   children?: ReactNode;
 }) => {
   return (
-    <div className="flex items-center p-4 rounded-lg">
+    <div className="flex items-center py-4 rounded-lg">
       <div className="flex-shrink-0 mr-4 rounded-lg shadow-md">
         <img
           className="rounded-md"

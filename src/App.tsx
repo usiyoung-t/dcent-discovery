@@ -46,8 +46,13 @@ function App() {
   }, [dappInfo]);
 
   return (
-    <div className="">
-      <section>
+    <div className="p-5">
+      <section className="mb-8">
+        <span className="text-lg font-normal text-gray-600">
+          {t("dapp_favorite_title")}
+        </span>
+        <Divider />
+
         {favorites.map((dapp) => (
           <>
             <DappItem
@@ -64,6 +69,10 @@ function App() {
       </section>
 
       <section>
+        <span className="text-lg font-normal text-gray-600">
+          {t("dapp_list_title")}
+        </span>
+        <Divider />
         {dapps.map((dapp) => (
           <>
             <DappItem
