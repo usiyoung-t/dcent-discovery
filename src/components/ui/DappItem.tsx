@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { DAPP_ICON_URL } from "../constants";
+import { DAPP_ICON_URL } from "../../constants";
 
 const DappItem = ({
   name,
