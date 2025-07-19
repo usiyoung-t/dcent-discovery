@@ -5,13 +5,16 @@ import {
   getDapps,
   type DappsData,
 } from "../api/dapps";
+import { useAppContext } from "../context/useAppContext";
 
-const useDapps = (lang: string, platform: string, env: string) => {
+const useDapps = () => {
+  const { lang, platform, env } = useAppContext();
+
   const queryClient = useQueryClient();
   const queryKey = ["dapps", lang, platform, env];
 
   const { data, isLoading, error } = useQuery<DappsData>({
-    queryKey: ["dapps", lang, platform, env],
+    queryKey: queryKey,
     enabled: !!lang && !!platform && !!env,
     queryFn: () => getDapps({ lang, platform, env }),
   });

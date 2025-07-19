@@ -1,35 +1,25 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./App.css";
 import useBanners from "./hooks/useBanners";
 import useDapps from "./hooks/useDapps";
+import { useAppContext } from "./context/useAppContext";
 
 function App() {
-  const { t, i18n } = useTranslation();
-  const [count, setCount] = useState(0);
+  const { t } = useTranslation();
 
+  const { changeLanguage } = useAppContext();
   const {
     data: banners,
     isLoading: isLoadingBanners,
     error: errorBanners,
-  } = useBanners(i18n.language);
+  } = useBanners();
   const {
     data: dappInfo,
     isLoading: isLoadingDapps,
     error: errorDapps,
     addFavorite,
     deleteFavorite,
-  } = useDapps(
-    i18n.language,
-    "android",
-    import.meta.env.VITE_APP_ENV || "development"
-  );
-
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
-
-  console.log(banners, dappInfo);
+  } = useDapps();
 
   return (
     <div className="p-8 min-h-screen bg-gray-100">
@@ -55,20 +45,6 @@ function App() {
         </header>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {/* Counter 섹션 */}
-          <div className="p-6 bg-white rounded-lg shadow-md">
-            <h2 className="mb-4 text-2xl font-semibold">Counter 예제</h2>
-            <div className="text-center">
-              <p className="mb-4 text-6xl font-bold text-purple-600">{count}</p>
-              <button
-                onClick={() => setCount(count + 1)}
-                className="px-6 py-3 text-lg text-white bg-purple-500 rounded-lg transition hover:bg-purple-600"
-              >
-                증가
-              </button>
-            </div>
-          </div>
-
           {/* API 호출 섹션 */}
           <div className="p-6 bg-white rounded-lg shadow-md">
             <h2 className="mb-4 text-2xl font-semibold">MSW API 예제</h2>
@@ -79,7 +55,7 @@ function App() {
 
               <div>
                 {banners?.map((banner) => (
-                  <div key={banner.id}>{banner.id}</div>
+                  <div key={banner.description}>{banner.description}</div>
                 ))}
               </div>
 
@@ -88,7 +64,7 @@ function App() {
 
               <div>
                 {dappInfo?.dapps.map((dapp) => (
-                  <div key={dapp.id}>{dapp.id}</div>
+                  <div key={dapp.name}>{dapp.description}</div>
                 ))}
               </div>
 
