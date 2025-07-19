@@ -17,6 +17,8 @@ function App() {
     data: dappInfo,
     isLoading: isLoadingDapps,
     error: errorDapps,
+    addFavorite,
+    deleteFavorite,
   } = useDapps(
     i18n.language,
     "android",
@@ -89,6 +91,13 @@ function App() {
                   <div key={dapp.id}>{dapp.id}</div>
                 ))}
               </div>
+
+              <button onClick={() => addFavorite("opensea")}>
+                Add Favorite
+              </button>
+              <button onClick={() => deleteFavorite("opensea")}>
+                Delete Favorite
+              </button>
             </div>
           </div>
         </div>

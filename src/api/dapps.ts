@@ -37,3 +37,19 @@ export const getDapps = async ({ lang, platform, env }: GetDappsParams) => {
 
   return response.data.data;
 };
+
+export const addFavorite = async (dappId: string) => {
+  const response = await axios.post("/api/favorites", { dappId });
+
+  if (!response.data.success) {
+    throw new Error(response.data.message || "Failed to add favorite");
+  }
+};
+
+export const deleteFavorite = async (dappId: string) => {
+  const response = await axios.delete(`/api/favorites/${dappId}`);
+
+  if (!response.data.success) {
+    throw new Error(response.data.message || "Failed to delete favorite");
+  }
+};

@@ -6,6 +6,9 @@ import {
 } from "./mockData";
 
 export const handlers = [
+  /**
+   * 배너 데이터 조회
+   */
   http.get("/api/banners", ({ request }) => {
     const lang = request.headers.get("Accept-Language") || "ko";
 
@@ -29,6 +32,9 @@ export const handlers = [
     });
   }),
 
+  /**
+   * 디앱 데이터 조회
+   */
   http.get("/api/dapps", ({ request }) => {
     const url = new URL(request.url);
     const lang = request.headers.get("Accept-Language") || "ko";
@@ -67,5 +73,32 @@ export const handlers = [
         favoriteIds: favoriteIdsMockData.favoriteIds,
       },
     });
+  }),
+
+  http.post("/api/favorites", async ({ request }) => {
+    const { dappId } = (await request.json()) as { dappId: string };
+
+    if (!favoriteIdsMockData.favoriteIds.includes(dappId)) {
+      favoriteIdsMockData.favoriteIds.push(dappId);
+    }
+
+    return HttpResponse.json({ success: true }, { status: 201 });
+  }),
+
+  http.delete("/api/favorites/:dappId", ({ params }) => {
+    const { dappId } = params as { dappId: string };
+
+    if (dappId === "fail-case-id") {
+      return new HttpResponse(null, {
+        status: 500,
+        statusText: "Server Error",
+      });
+    }
+
+    favoriteIdsMockData.favoriteIds = favoriteIdsMockData.favoriteIds.filter(
+      (id) => id !== dappId
+    );
+
+    return HttpResponse.json({ success: true });
   }),
 ];
