@@ -5,17 +5,18 @@ import useDapps from "./hooks/useDapps";
 import { useAppContext } from "./context/useAppContext";
 import DappItem from "./components/DappItem";
 import type { Dapp } from "./api/dapps";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Divider from "./components/Divider";
 import { BookMarkButton } from "./components/BookMark";
 import Carousel from "./components/Carousel";
 import { SwiperSlide } from "swiper/react";
 import { DAPP_ICON_URL } from "./constants";
+import ConfirmModal from "./components/ConfirmModal";
 
 function App() {
   const { t } = useTranslation();
-
-  const { changeLanguage } = useAppContext();
+  const [isOpen, setIsOpen] = useState(false);
+  const { changeLanguage, lang } = useAppContext();
   const {
     data: banners,
     isLoading: isLoadingBanners,
@@ -49,6 +50,7 @@ function App() {
     return { favorites: favoritesList, dapps: dappsList };
   }, [dappInfo]);
 
+  const [selectedDappId, setSelectedDappId] = useState<string | null>(null);
   return (
     <>
       <Carousel>
@@ -94,7 +96,12 @@ function App() {
                   iconUrl={dapp.iconUrl}
                   description={dapp.linkUrl}
                 >
-                  <BookMarkButton onClick={() => deleteFavorite(dapp.id)} />
+                  <BookMarkButton
+                    onClick={() => {
+                      setSelectedDappId(dapp.id);
+                      setIsOpen(true);
+                    }}
+                  />
                 </DappItem>
                 <Divider />
               </div>
@@ -106,6 +113,7 @@ function App() {
           <span className="text-lg font-normal text-gray-600">
             {t("dapp_list_title")}
           </span>
+
           <Divider />
           {dapps.map((dapp) => (
             <div key={dapp.id}>
@@ -119,6 +127,26 @@ function App() {
           ))}
         </section>
       </div>
+
+      <button
+        onClick={() => {
+          changeLanguage(lang === "ko" ? "en" : "ko");
+        }}
+      >
+        open
+      </button>
+      <ConfirmModal
+        isOpen={isOpen}
+        title={t("dapp_favorite_title") + " " + t("dapp_favorite_delete")}
+        children={<p>{t("dapp_favorite_delete_confirm")}</p>}
+        onClose={() => setIsOpen(false)}
+        onConfirm={() => {
+          if (selectedDappId) {
+            deleteFavorite(selectedDappId);
+          }
+          setIsOpen(false);
+        }}
+      />
     </>
   );
 }
